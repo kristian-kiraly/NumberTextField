@@ -361,20 +361,39 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
 #if DEBUG
 @available(iOS 15, macOS 15.0, *)
 extension TextFieldWrapper {
-    internal func testStringIsValidInt(string:String) -> Bool {
+    internal static func testStringIsValidInt(string:String) -> Bool {
         TextFieldCoordinator.stringIsValidInt(string: string)
     }
     
-    internal func testStringIsValidDecimal(string:String) -> Bool {
+    internal static func testStringIsValidDecimal(string:String) -> Bool {
         TextFieldCoordinator.stringIsValidDecimal(string: string)
     }
     
-    internal func testShouldReplaceCharactersInRange(_ textField:UITextField, shouldChangeCharactersIn range:NSRange, replacementString string: String, isInt:Bool, textDidChangeAction:(String?) -> Void) -> Bool {
+    internal static func testShouldReplaceCharactersInRange(_ textField:UITextField, shouldChangeCharactersIn range:NSRange, replacementString string: String, isInt:Bool, textDidChangeAction:(String?) -> Void) -> Bool {
         TextFieldCoordinator.textField(textField, shouldChangeCharactersIn: range, replacementString: string, isInt: isInt, textDidChangeAction: textDidChangeAction)
     }
     
-    internal func testProposedTextAfterReplacingCharacters(_ textField:UITextField, tryReplacingCharactersIn range:NSRange, replacementString string:String) -> String? {
+    internal static func testProposedTextAfterReplacingCharacters(_ textField:UITextField, tryReplacingCharactersIn range:NSRange, replacementString string:String) -> String? {
         TextFieldCoordinator.proposedTextAfterReplacingCharacters(textField, tryReplacingCharactersIn: range, replacementString: string)
+    }
+}
+
+@available(iOS 15, macOS 15.0, *)
+extension NumberTextField {
+    internal static func testStringIsValidInt(string:String) -> Bool {
+        TextFieldWrapper.testStringIsValidInt(string: string)
+    }
+    
+    internal static func testStringIsValidDecimal(string:String) -> Bool {
+        TextFieldWrapper.testStringIsValidDecimal(string: string)
+    }
+    
+    internal static func testShouldReplaceCharactersInRange(_ textField:UITextField, shouldChangeCharactersIn range:NSRange, replacementString string: String, isInt: Bool, textDidChangeAction:(String?) -> Void) -> Bool {
+        TextFieldWrapper.testShouldReplaceCharactersInRange(textField, shouldChangeCharactersIn: range, replacementString: string, isInt: isInt, textDidChangeAction: textDidChangeAction)
+    }
+    
+    internal static func testProposedTextAfterReplacingCharacters(_ textField:UITextField, tryReplacingCharactersIn range:NSRange, replacementString string:String) -> String? {
+        TextFieldWrapper.testProposedTextAfterReplacingCharacters(textField, tryReplacingCharactersIn: range, replacementString: string)
     }
 }
 #endif
