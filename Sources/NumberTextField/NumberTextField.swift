@@ -75,9 +75,9 @@ public struct NumberTextField: View {
     private var numberWrapper:NumberWrapper
     @State private var text:String
     private var placeholderText:String
-    static private let defaultPlaceholderText = "Number Entry"
+    public static let defaultPlaceholderText = "Number Entry"
 
-    init(placeholderText:String = defaultPlaceholderText, number:Binding<Int>, startBlankIfZero:Bool = true) {
+    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Int>, startBlankIfZero:Bool = true) {
         numberWrapper = .int(number)
         var initialText = String(number.wrappedValue)
         if startBlankIfZero && number.wrappedValue == 0 {
@@ -87,7 +87,7 @@ public struct NumberTextField: View {
         self.placeholderText = placeholderText
     }
 
-    init(placeholderText:String = defaultPlaceholderText, number:Binding<Double>, startBlankIfZero:Bool = true) {
+    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Double>, startBlankIfZero:Bool = true) {
         numberWrapper = .double(number)
         var initialText = String(number.wrappedValue)
         if startBlankIfZero && number.wrappedValue == 0.0 {
@@ -97,7 +97,7 @@ public struct NumberTextField: View {
         self.placeholderText = placeholderText
     }
 
-    init(placeholderText:String = defaultPlaceholderText, number:Binding<Float>, startBlankIfZero:Bool = true) {
+    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Float>, startBlankIfZero:Bool = true) {
         numberWrapper = .float(number)
         var initialText = String(number.wrappedValue)
         if startBlankIfZero && number.wrappedValue == 0.0 {
