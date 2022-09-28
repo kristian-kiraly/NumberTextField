@@ -1,3 +1,21 @@
 # NumberTextField
 
-A description of this package.
+A SwiftUI-style TextField that allows a passed Binding number (Double, Int, or Float) to be internally managed and only allow valid numbers to be typed and pasted.
+
+Usage:
+
+```swift
+struct MainContentView: View {
+    @State var numCookies:Int = 1
+    
+    var body:some View {
+        HStack {
+            Text("How many cookies would you like?")
+            Spacer()
+            NumberTextField(number: $numCookies)
+        }
+    }
+}
+```
+
+There are parameters that allow you to set placeholder text and a flag if you'd like the field to start blank if the initial value is 0

@@ -74,7 +74,6 @@ extension String {
 public struct NumberTextField: View {
     private var numberWrapper:NumberWrapper
     @State private var text:String
-    @FocusState private var isFocused:Bool
     private var placeholderText:String
     static private let defaultPlaceholderText = "Number Entry"
 
