@@ -38,8 +38,8 @@ fileprivate enum NumberWrapper: Equatable {
 }
 
 @available(iOS 15, macOS 15.0, *)
-extension String {
-    fileprivate init(_ numberWrapper:NumberWrapper) { //Init string from NumberWrapper
+fileprivate extension String {
+    init(_ numberWrapper:NumberWrapper) { //Init string from NumberWrapper
         switch numberWrapper { //Just run String.init() on each type once broken out
         case .double(let binding):
             self.init(binding.wrappedValue)
@@ -65,7 +65,7 @@ extension String {
         return resultFloat
     }
     
-    fileprivate func isEqualToNumber(number:NumberWrapper) -> Bool {
+    func isEqualToNumber(number:NumberWrapper) -> Bool {
         number.isEqualToStringValue(string: self)
     }
 }
