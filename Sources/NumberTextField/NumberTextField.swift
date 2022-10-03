@@ -46,7 +46,8 @@ fileprivate extension String {
         case .int(let binding):
             self.init(binding.wrappedValue)
         case .float(let binding):
-            self.init(binding.wrappedValue)
+            //self.init(binding.wrappedValue)
+            self.init(format: "%f", binding.wrappedValue)
         }
     }
     
