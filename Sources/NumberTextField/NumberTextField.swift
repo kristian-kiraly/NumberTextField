@@ -76,8 +76,9 @@ public struct NumberTextField: View {
     @State private var text:String
     private var placeholderText:String
     public static let defaultPlaceholderText = "Number Entry"
+    private var clearButtonMode:UITextField.ViewMode
 
-    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Int>, startBlankIfZero:Bool = true) {
+    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Int>, startBlankIfZero:Bool = true, clearButtonMode:UITextField.ViewMode = .always) {
         numberWrapper = .int(number)
         var initialText = String(number.wrappedValue)
         if startBlankIfZero && number.wrappedValue == 0 {
@@ -85,9 +86,10 @@ public struct NumberTextField: View {
         }
         _text = State(initialValue: initialText)
         self.placeholderText = placeholderText
+        self.clearButtonMode = clearButtonMode
     }
 
-    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Double>, startBlankIfZero:Bool = true) {
+    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Double>, startBlankIfZero:Bool = true, clearButtonMode:UITextField.ViewMode = .always) {
         numberWrapper = .double(number)
         var initialText = String(number.wrappedValue)
         if startBlankIfZero && number.wrappedValue == 0.0 {
@@ -95,9 +97,10 @@ public struct NumberTextField: View {
         }
         _text = State(initialValue: initialText)
         self.placeholderText = placeholderText
+        self.clearButtonMode = clearButtonMode
     }
 
-    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Float>, startBlankIfZero:Bool = true) {
+    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Float>, startBlankIfZero:Bool = true, clearButtonMode:UITextField.ViewMode = .always) {
         numberWrapper = .float(number)
         var initialText = String(number.wrappedValue)
         if startBlankIfZero && number.wrappedValue == 0.0 {
@@ -105,6 +108,7 @@ public struct NumberTextField: View {
         }
         _text = State(initialValue: initialText)
         self.placeholderText = placeholderText
+        self.clearButtonMode = clearButtonMode
     }
 
     public var body: some View {
@@ -128,7 +132,8 @@ public struct NumberTextField: View {
             isInt: isInt,
             placeholderText: placeholderText,
             textDidEndEditingAction: textDidEndEditing(string:),
-            textDidChangeAction: textDidChange(string:)
+            textDidChangeAction: textDidChange(string:),
+            clearButtonMode: clearButtonMode
         )
         .fixedSize(horizontal: false, vertical: true)
         .onChange(of: numberWrapper) { newValue in
@@ -215,12 +220,15 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
     var textDidEndEditingAction:(String?) -> Void = {_ in }
     var textDidChangeAction:(String?) -> Void = {_ in }
     @State var cursorPositionRange:UITextRange?
+    var clearButtonMode:UITextField.ViewMode
     
     func makeUIView(context: Context) -> UITextField {
         let textField = UITextField(frame: .zero)
         textField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textField.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         textField.delegate = context.coordinator
+        
+        textField.clearButtonMode = self.clearButtonMode
         
         self.setProperties(textField)
         
@@ -332,6 +340,12 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
             }
             
             return isValid
+        }
+        
+        func textFieldShouldClear(_ textField: UITextField) -> Bool {
+            self.parent.text = ""
+            self.parent.textDidChangeAction("")
+            return true
         }
         
         static func proposedTextAfterReplacingCharacters(_ textField:UITextField, tryReplacingCharactersIn range:NSRange, replacementString string:String) -> String? {
