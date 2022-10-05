@@ -77,8 +77,9 @@ public struct NumberTextField: View {
     private var placeholderText:String
     public static let defaultPlaceholderText = "Number Entry"
     private var clearButtonMode:UITextField.ViewMode
+    private var textAlignment:NSTextAlignment
 
-    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Int>, startBlankIfZero:Bool = true, clearButtonMode:UITextField.ViewMode = .always) {
+    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Int>, startBlankIfZero:Bool = true, clearButtonMode:UITextField.ViewMode = .always, textAlignment:NSTextAlignment = .left) {
         numberWrapper = .int(number)
         var initialText = String(number.wrappedValue)
         if startBlankIfZero && number.wrappedValue == 0 {
@@ -87,9 +88,10 @@ public struct NumberTextField: View {
         _text = State(initialValue: initialText)
         self.placeholderText = placeholderText
         self.clearButtonMode = clearButtonMode
+        self.textAlignment = textAlignment
     }
 
-    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Double>, startBlankIfZero:Bool = true, clearButtonMode:UITextField.ViewMode = .always) {
+    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Double>, startBlankIfZero:Bool = true, clearButtonMode:UITextField.ViewMode = .always, textAlignment:NSTextAlignment = .left) {
         numberWrapper = .double(number)
         var initialText = String(number.wrappedValue)
         if startBlankIfZero && number.wrappedValue == 0.0 {
@@ -98,9 +100,10 @@ public struct NumberTextField: View {
         _text = State(initialValue: initialText)
         self.placeholderText = placeholderText
         self.clearButtonMode = clearButtonMode
+        self.textAlignment = textAlignment
     }
 
-    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Float>, startBlankIfZero:Bool = true, clearButtonMode:UITextField.ViewMode = .always) {
+    public init(placeholderText:String = defaultPlaceholderText, number:Binding<Float>, startBlankIfZero:Bool = true, clearButtonMode:UITextField.ViewMode = .always, textAlignment:NSTextAlignment = .left) {
         numberWrapper = .float(number)
         var initialText = String(number.wrappedValue)
         if startBlankIfZero && number.wrappedValue == 0.0 {
@@ -109,6 +112,7 @@ public struct NumberTextField: View {
         _text = State(initialValue: initialText)
         self.placeholderText = placeholderText
         self.clearButtonMode = clearButtonMode
+        self.textAlignment = textAlignment
     }
 
     public var body: some View {
@@ -131,6 +135,7 @@ public struct NumberTextField: View {
                 }),
             isInt: isInt,
             placeholderText: placeholderText,
+            textAlignment: textAlignment,
             textDidEndEditingAction: textDidEndEditing(string:),
             textDidChangeAction: textDidChange(string:),
             clearButtonMode: clearButtonMode
@@ -214,7 +219,7 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
     @Binding var text:String
     var isInt:Bool
     var placeholderText:String = ""
-    var textAlignment:NSTextAlignment = .right
+    var textAlignment:NSTextAlignment = .left
     var borderStyle:UITextField.BorderStyle = .roundedRect
     var startBlankIfZero = true
     var textDidEndEditingAction:(String?) -> Void = {_ in }
