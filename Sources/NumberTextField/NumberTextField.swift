@@ -375,17 +375,26 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
 @available(iOS 15, macOS 15.0, *)
 fileprivate class TextFieldClearButtonPosition: UITextField {
     override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+        guard textAlignment == .right else {
+            return super.clearButtonRect(forBounds: bounds)
+        }
         let originalRect = super.clearButtonRect(forBounds: bounds)
         return CGRect(x: 8, y: originalRect.origin.y, width: originalRect.width, height: originalRect.height)
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        guard textAlignment == .right else {
+            return super.editingRect(forBounds: bounds)
+        }
         let originalRect = super.clearButtonRect(forBounds: bounds)
         let newBounds = CGRect(x: originalRect.width, y: bounds.origin.y, width: bounds.size.width-originalRect.width, height: bounds.height)
         return CGRectInset(newBounds, 13, 3)
     }
     
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        guard textAlignment == .right else {
+            return super.placeholderRect(forBounds: bounds)
+        }
         return editingRect(forBounds: bounds)
     }
 }
