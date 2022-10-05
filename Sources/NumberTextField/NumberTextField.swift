@@ -223,7 +223,7 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
     var clearButtonMode:UITextField.ViewMode
     
     func makeUIView(context: Context) -> UITextField {
-        let textField = UITextField(frame: .zero)
+        let textField = TextFieldClearButtonPosition(frame: .zero)
         textField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textField.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         textField.delegate = context.coordinator
@@ -369,6 +369,24 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
         static func numDecimalsInString(string:String) -> Int {
             return string.components(separatedBy: decimalCharacterSet).count - 1
         }
+    }
+}
+
+@available(iOS 15, macOS 15.0, *)
+fileprivate class TextFieldClearButtonPosition: UITextField {
+    override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+        let originalRect = super.clearButtonRect(forBounds: bounds)
+        return CGRect(x: 8, y: originalRect.origin.y, width: originalRect.width, height: originalRect.height)
+    }
+    
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        let originalRect = super.clearButtonRect(forBounds: bounds)
+        let newBounds = CGRect(x: originalRect.width, y: bounds.origin.y, width: bounds.size.width-originalRect.width, height: bounds.height)
+        return CGRectInset(newBounds, 13, 3)
+    }
+    
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return editingRect(forBounds: bounds)
     }
 }
 
