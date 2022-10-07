@@ -20,4 +20,6 @@ struct MainContentView: View {
 
 There are parameters that allow you to set placeholder text and a flag if you'd like the field to start blank if the initial value is 0
 
+Please note: the clear button will not function if you are capturing gestures on views that contain the text field
+
 I highly recommend against using Floats, the behavior gets quite strange when Float precision starts rearing its ugly head. But it is available if it must be used

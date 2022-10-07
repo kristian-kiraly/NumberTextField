@@ -233,8 +233,6 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
         textField.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         textField.delegate = context.coordinator
         
-        textField.clearButtonMode = self.clearButtonMode
-        
         self.setProperties(textField)
         
         
@@ -247,6 +245,7 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
         textField.placeholder = self.placeholderText
         textField.textAlignment = self.textAlignment
         textField.borderStyle = self.borderStyle
+        textField.clearButtonMode = self.clearButtonMode
         textField.text = self.text
         if let cursorPositionRange = cursorPositionRange {
             textField.selectedTextRange = cursorPositionRange
@@ -397,6 +396,13 @@ fileprivate class TextFieldClearButtonPosition: UITextField {
     }
     
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        guard textAlignment == .right else {
+            return super.placeholderRect(forBounds: bounds)
+        }
+        return editingRect(forBounds: bounds)
+    }
+    
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
         guard textAlignment == .right else {
             return super.placeholderRect(forBounds: bounds)
         }
