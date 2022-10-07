@@ -404,7 +404,7 @@ fileprivate class TextFieldClearButtonPosition: UITextField {
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         guard textAlignment == .right else {
-            return super.placeholderRect(forBounds: bounds)
+            return super.textRect(forBounds: bounds)
         }
         return editingRect(forBounds: bounds)
     }
