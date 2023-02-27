@@ -363,7 +363,7 @@ fileprivate struct TextFieldWrapper: UIViewRepresentable {
             return string == filteredString
         }
         
-        static let decimalCharacterSet = CharacterSet(charactersIn: ".")
+        static let decimalCharacterSet = CharacterSet(charactersIn: ",.")
         static let numbersAndDecimalsCharacterSetFilter = CharacterSet.decimalDigits.union(decimalCharacterSet).inverted
         static func stringIsValidDecimal(string:String) -> Bool {
             let filteredString = string.components(separatedBy: numbersAndDecimalsCharacterSetFilter).joined()
